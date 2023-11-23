@@ -7,7 +7,7 @@ First, run the development server:
 ```bash
 git clone https://github.com/akrzelj-ossunist/smoothsailing-fe
 
-git update
+npm update
 
 npm run dev
 ```
