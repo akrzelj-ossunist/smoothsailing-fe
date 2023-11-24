@@ -3,12 +3,8 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import * as yup from "yup";
-import axios from "axios";
-
-interface ILoginForm {
-  email: string;
-  password: string;
-}
+import postData from "../services/postData";
+import { ILoginForm } from "../services/interface";
 
 const Login: React.FC = () => {
   const router = useRouter();
@@ -33,14 +29,7 @@ const Login: React.FC = () => {
         validationSchema={loginSchema}
         onSubmit={(values, actions) => {
           actions.setSubmitting(false);
-          axios
-            .post("/user", values)
-            .then(function (response) {
-              console.log(response);
-            })
-            .catch(function (error) {
-              console.log(error);
-            });
+          postData(values, "api/user");
           router.push("/");
         }}
       >

@@ -3,19 +3,8 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import * as yup from "yup";
-import axios from "axios";
-
-interface IRegisterForm {
-  name: string;
-  surname: string;
-  license: boolean;
-  email: string;
-  repeatEmail: string;
-  password: string;
-  repeatPassword: string;
-  birthday: string;
-  gender: string;
-}
+import postData from "../services/postData";
+import { IRegisterForm } from "../services/interface";
 
 const Register: React.FC = () => {
   const router = useRouter();
@@ -70,14 +59,7 @@ const Register: React.FC = () => {
         validationSchema={registerSchema}
         onSubmit={(values, actions) => {
           actions.setSubmitting(false);
-          axios
-            .post("/user", values)
-            .then(function (response) {
-              console.log(response);
-            })
-            .catch(function (error) {
-              console.log(error);
-            });
+          postData(values, "api/user");
           router.push("/");
         }}
       >
@@ -95,14 +77,14 @@ const Register: React.FC = () => {
             placeholder="Last name"
           />
           <ErrorMessage name="surname" component="div" />
-          <div className="flex justify-between">
+          <div className="flex justify-between items-center">
             <div>
-              <label>License:</label>
+              <label className="mr-2">License:</label>
               <Field type="checkbox" name="license" />
               <ErrorMessage name="license" component="div" />
             </div>
             <div>
-              <label>Birthday:</label>
+              <label className="mr-2">Birthday:</label>
               <Field
                 type="date"
                 name="birthday"
@@ -139,15 +121,17 @@ const Register: React.FC = () => {
             placeholder="Repeat Password"
           />
           <ErrorMessage name="repeatPassword" component="div" />
-          Gende:
-          <label>
-            <Field type="radio" name="gender" value="Male" />
-            Male
-          </label>
-          <label>
-            <Field type="radio" name="gender" value="Female" />
-            Female
-          </label>
+          <div className="flex justify-evenly my-2">
+            Gender:
+            <label>
+              <Field type="radio" name="gender" value="Male" />
+              Male
+            </label>
+            <label>
+              <Field type="radio" name="gender" value="Female" />
+              Female
+            </label>
+          </div>
           <ErrorMessage name="gender" component="div" />
           <button
             type="submit"
