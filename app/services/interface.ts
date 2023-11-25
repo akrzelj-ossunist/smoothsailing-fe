@@ -10,6 +10,14 @@ export interface IRegisterForm {
     gender: string;
   }
 
+export interface IRegisterCrew {
+  name: string;
+  surname: string;
+  position: string;
+  price: string;
+  review: string;
+}
+
 export interface ILoginForm {
     email: string;
     password: string;

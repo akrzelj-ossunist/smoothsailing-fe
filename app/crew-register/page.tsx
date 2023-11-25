@@ -3,10 +3,10 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import * as yup from "yup";
 import postData from "../services/postData";
-import { IRegisterForm } from "../services/interface";
+import { IRegisterCrew, IRegisterForm } from "../services/interface";
 import FormComponent from "../components/FormComponent";
 
-const Register: React.FC = () => {
+const Crew: React.FC = () => {
   const router = useRouter();
 
   const userRegister = [
@@ -19,52 +19,25 @@ const Register: React.FC = () => {
       name: "surname",
     },
     {
-      type: "checkbox",
-      name: "license",
-      value: "Have license: ",
+      type: "text",
+      name: "position",
     },
     {
-      type: "email",
-      name: "email",
+      type: "text",
+      name: "price",
     },
     {
-      type: "email",
-      name: "repeatEmail",
-    },
-    {
-      type: "password",
-      name: "password",
-    },
-    {
-      type: "password",
-      name: "repeatPassword",
-    },
-    {
-      type: "date",
-      name: "birthday",
-    },
-    {
-      type: "radio",
-      name: "gender",
-      value: "Male",
-    },
-    {
-      type: "radio",
-      name: "gender",
-      value: "Female",
+      type: "text",
+      name: "review",
     },
   ];
 
-  const registerForm: IRegisterForm = {
+  const registerForm: IRegisterCrew = {
     name: "",
     surname: "",
-    license: false,
-    email: "",
-    repeatEmail: "",
-    password: "",
-    repeatPassword: "",
-    birthday: "",
-    gender: "",
+    position: "",
+    price: "",
+    review: "",
   };
   const registerSchema = yup.object().shape({
     name: yup
@@ -77,25 +50,25 @@ const Register: React.FC = () => {
       .min(2, "Username to short!")
       .max(20, "Username to long!")
       .required("You need to enter username!"),
-    license: yup.boolean(),
-    email: yup
+    position: yup
       .string()
-      .email("Invalid email")
-      .required("You must input email!"),
-    repeatEmail: yup.string().oneOf([yup.ref("email")], "Email must match!"),
-    password: yup
+      .min(2, "Username to short!")
+      .max(20, "Username to long!")
+      .required("You need to enter username!"),
+    price: yup
       .string()
-      .min(8, "Password must contain minimum of 8 characters")
-      .required("You need to enter password!"),
-    repeatPassword: yup
+      .min(2, "Username to short!")
+      .max(20, "Username to long!")
+      .required("You need to enter username!"),
+    review: yup
       .string()
-      .oneOf([yup.ref("password")], "Password must match"),
-    birthday: yup.date().required("Must fill this!"),
-    gender: yup.string().required("Must choose."),
+      .min(2, "Username to short!")
+      .max(20, "Username to long!")
+      .required("You need to enter username!"),
   });
 
   const onSubmitFunction = (values: any) => {
-    postData(values, "api/user");
+    postData(values, "crew/register");
     router.push("/");
   };
   return (
@@ -116,4 +89,4 @@ const Register: React.FC = () => {
   );
 };
 
-export default Register;
+export default Crew;

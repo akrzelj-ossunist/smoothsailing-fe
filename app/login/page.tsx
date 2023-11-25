@@ -1,13 +1,24 @@
 "use client";
-import { Formik, Form, Field, ErrorMessage } from "formik";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import * as yup from "yup";
 import postData from "../services/postData";
 import { ILoginForm } from "../services/interface";
+import FormComponent from "../components/FormComponent";
 
 const Login: React.FC = () => {
   const router = useRouter();
+
+  const userLogin = [
+    {
+      type: "email",
+      name: "email",
+    },
+    {
+      type: "password",
+      name: "password",
+    },
+  ];
   const loginForm: ILoginForm = {
     email: "",
     password: "",
@@ -16,6 +27,10 @@ const Login: React.FC = () => {
     email: yup.string().required("Incorrect email!"),
     password: yup.string().required("Incorrect password"),
   });
+  const onSubmitFunction = (values: any) => {
+    postData(values, "api/user");
+    router.push("/");
+  };
   return (
     <div className="flex justify-center relative">
       <Link
@@ -24,41 +39,12 @@ const Login: React.FC = () => {
       >
         Home
       </Link>
-      <Formik
+      <FormComponent
+        formData={userLogin}
         initialValues={loginForm}
         validationSchema={loginSchema}
-        onSubmit={(values, actions) => {
-          actions.setSubmitting(false);
-          postData(values, "api/user");
-          router.push("/");
-        }}
-      >
-        {() => (
-          <Form className="m-4 flex flex-col w-[20%]">
-            <p className="text-2xl font-bold text-slate-900">Login: </p>
-            <Field
-              type="email"
-              name="email"
-              className="border-black border-b-[1px] my-2"
-              placeholder="E-mail"
-            />
-            <ErrorMessage name="email" component="div" />
-            <Field
-              type="password"
-              name="password"
-              className="border-black border-b-[1px] my-2"
-              placeholder="Password"
-            />
-            <ErrorMessage name="password" component="div" />
-            <button
-              type="submit"
-              className="px-4 py-2 rounded-md bg-slate-900 text-white mt-2"
-            >
-              Submit
-            </button>
-          </Form>
-        )}
-      </Formik>
+        onSubmitFunction={onSubmitFunction}
+      />
     </div>
   );
 };
