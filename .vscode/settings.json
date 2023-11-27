@@ -1,0 +1,6 @@
+{
+  "files.autoSave": "onWindowChange",
+  "editor.formatOnSave": true,
+  "prettier.bracketSameLine": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
+}

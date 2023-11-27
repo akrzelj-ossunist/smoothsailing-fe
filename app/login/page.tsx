@@ -5,10 +5,12 @@ import * as yup from "yup";
 import postData from "../services/postData";
 import { ILoginForm } from "../services/interface";
 import FormComponent from "../components/FormComponent";
+import { useContext } from "react";
+import { ThemeContext } from "../components/Navigation";
 
 const Login: React.FC = () => {
   const router = useRouter();
-
+  const context = useContext(ThemeContext);
   const userLogin = [
     {
       type: "email",
@@ -28,15 +30,16 @@ const Login: React.FC = () => {
     password: yup.string().required("Incorrect password"),
   });
   const onSubmitFunction = (values: any) => {
-    postData(values, "api/user");
+    postData(values, "user/login");
+    context.setLogged(true);
+    localStorage.setItem("logged", "true");
     router.push("/");
   };
   return (
     <div className="flex justify-center relative">
       <Link
         href="/"
-        className="absolute top-2 right-5 px-4 py-2 rounded-md bg-slate-900 text-white mt-2"
-      >
+        className="absolute top-2 right-5 px-4 py-2 rounded-md bg-slate-900 text-white mt-2">
         Home
       </Link>
       <FormComponent

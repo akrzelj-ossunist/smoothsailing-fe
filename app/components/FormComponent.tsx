@@ -1,14 +1,12 @@
 "use client";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { useRouter } from "next/navigation";
 
 const FormComponent: React.FC<{
   formData: any;
   initialValues: any;
   validationSchema: any;
-  onSubmitFunction: (values: any) => {};
+  onSubmitFunction: (values: any) => void;
 }> = ({ formData, initialValues, validationSchema, onSubmitFunction }) => {
-  const router = useRouter();
   return (
     <Formik
       initialValues={initialValues}
@@ -16,12 +14,11 @@ const FormComponent: React.FC<{
       onSubmit={(values, actions) => {
         actions.setSubmitting(false);
         onSubmitFunction(values);
-      }}
-    >
+      }}>
       <Form className="m-4 flex flex-col w-[300px]">
-        {formData.map((data: any) => {
+        {formData.map((data: any, index: number) => {
           return (
-            <div className={`${data.value ? "flex" : ""}`}>
+            <div key={index} className={`${data.value ? "flex" : ""}`}>
               <label>{data?.value}</label>
               <Field
                 type={data.type}
@@ -40,8 +37,7 @@ const FormComponent: React.FC<{
         })}
         <button
           type="submit"
-          className="px-4 py-2 rounded-md bg-slate-900 text-white mt-2"
-        >
+          className="px-4 py-2 rounded-md bg-slate-900 text-white mt-2">
           Submit
         </button>
       </Form>

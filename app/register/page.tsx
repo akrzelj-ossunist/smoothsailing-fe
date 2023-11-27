@@ -95,7 +95,7 @@ const Register: React.FC = () => {
   });
 
   const onSubmitFunction = (values: any) => {
-    postData(values, "api/user");
+    postData(values, "user/register");
     router.push("/");
   };
   return (
